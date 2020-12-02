@@ -42,6 +42,20 @@ void SongData::importSongs()
 			cout << e.what() << endl;
 		}
 
+		getline(s, temp, ']');
+		// Code for inserting these things into a vector!
+
+
+		getline(s, temp, ','); // Moving getline to correct position
+
+		getline(s, temp, ',');
+		try {
+			double dance = stod(temp);
+		}
+		catch (std::exception& e) {
+			cout << e.what() << endl;
+		}
+
 	
 
 	}
