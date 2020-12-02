@@ -2,7 +2,11 @@
 #include <string>
 #include <vector>
 
+#include "SongCollection.h"
+
 using namespace std;
+
+
 
 int main()
 {
