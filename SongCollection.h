@@ -4,8 +4,7 @@
 class SongData 
 {
 private:
-
-
+	vector<Song> songs;
 
 public:
 
