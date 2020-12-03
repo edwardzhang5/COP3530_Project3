@@ -7,12 +7,12 @@
 
 #include "Song.h"
 
-class SongData 
+class SongCollection
 {
 private:
 	vector<Song> songs;
 
 public:
-	SongData();
+	SongCollection();
 	void importSongs();
 };

@@ -22,7 +22,7 @@ Song::Song() {
 	tempo = 0;
 }
 
-Song::Song(double valence, int year, double acoustic, vector<string> artists, double dance, int duration, double energy, bool exp, string id, double instrumental, int key, double liveness, double loudness, int mode, string name, int popularity, int release_year, double speech, double tempo)
+Song::Song(double valence, int year, double acoustic, vector<string> artists, double dance, int duration, double energy, int exp, string id, double instrumental, int key, double liveness, double loudness, int mode, string name, int popularity, int release_year, double speech, double tempo)
 {
 	this->valence = valence;
 	this->year = year;

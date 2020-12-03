@@ -10,6 +10,8 @@ using namespace std;
 
 int main()
 {
+	SongCollection songs;
+	songs.importSongs();
 
 	return 0;
 }

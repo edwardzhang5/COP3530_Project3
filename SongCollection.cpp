@@ -2,11 +2,12 @@
 
 using namespace std;
 
-SongData::SongData()
+SongCollection::SongCollection()
 {
+	songs = {};
 }
 
-void SongData::importSongs()
+void SongCollection::importSongs()
 {
 	ifstream file;
 	file.open("data.csv");
@@ -19,45 +20,81 @@ void SongData::importSongs()
 		string temp;
 
 		getline(s, temp, ',');
-		try {
-			double valence = stod(temp);
-		}
-		catch (std::exception& e) {
-			cout << e.what() << endl;
-		}
+		double valence = stod(temp);
 
 		getline(s, temp, ',');
-		try {
-			int year = stoi(temp);
-		}
-		catch (std::exception& e) {
-			cout << e.what() << endl;
-		}
+		int year = stoi(temp);
 		
 		getline(s, temp, ',');
-		try {
-			double acoustic = stod(temp);
-		}
-		catch (std::exception& e) {
-			cout << e.what() << endl;
-		}
+		double acoustic = stod(temp);
 
 		getline(s, temp, ']');
 		// Code for inserting these things into a vector!
+		vector<string> artists;
 
+		temp = temp.substr(2);
+		auto c = temp.find("'");
+		string oneName;
+		while (c != string::npos) {
+			oneName = temp.substr(0, c);
+			artists.push_back(oneName);
+			if (temp.size() > (4 + c))
+				temp = temp.substr(c + 4);
+			else
+				break;
+			c = temp.find("'");
+		}
 
 		getline(s, temp, ','); // Moving getline to correct position
+		getline(s, temp, ',');
+		double dance = stod(temp);
 
 		getline(s, temp, ',');
-		try {
-			double dance = stod(temp);
-		}
-		catch (std::exception& e) {
-			cout << e.what() << endl;
-		}
+		int duration = stoi(temp);
 
-	
+		getline(s, temp, ',');
+		double energy = stod(temp);
 
+		getline(s, temp, ',');
+		int exp = stoi(temp);
+
+		getline(s, temp, ',');
+		string id = temp;
+
+		getline(s, temp, ',');
+		double instrumental = stod(temp);
+
+		getline(s, temp, ',');
+		int key = stoi(temp);
+
+		getline(s, temp, ',');
+		double liveness = stod(temp);
+
+		getline(s, temp, ',');
+		double loudness = stod(temp);
+
+		getline(s, temp, ',');
+		int mode = stoi(temp);
+
+		getline(s, temp, '"');
+		getline(s, temp, '"');
+		string name = temp;
+		
+		getline(s, temp, ','); // moving getline to right position
+		getline(s, temp, ',');
+		int popularity = stoi(temp);
+
+		getline(s, temp, ',');
+		int release_year = stoi(temp);
+
+		getline(s, temp, ',');
+		double speech = stod(temp);
+
+		getline(s, temp, ',');
+		double tempo = stod(temp);
+		
+		Song se(valence, year, acoustic, artists, dance, duration, energy, exp, id, instrumental, key, liveness, loudness, mode, name, popularity, release_year, speech, tempo);
+		songs.push_back(se);
 	}
 
 }
