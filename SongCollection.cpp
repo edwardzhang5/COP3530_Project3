@@ -14,8 +14,11 @@ void SongCollection::importSongs()
 	string line;
 
 	getline(file, line); // gets rid of first line of csv
-
+	int counter = 1;
 	while (getline(file, line)) {
+		cout << counter << endl;
+		counter++;
+
 		stringstream s (line);
 		string temp;
 
@@ -31,18 +34,25 @@ void SongCollection::importSongs()
 		getline(s, temp, ']');
 		// Code for inserting these things into a vector!
 		vector<string> artists;
-
-		temp = temp.substr(2);
-		auto c = temp.find("'");
-		string oneName;
-		while (c != string::npos) {
-			oneName = temp.substr(0, c);
+		if (temp.find("\"") != string::npos) {
+			temp = temp.substr(3);
+			auto c = temp.find("'");
+			string oneName;
+			while (c != string::npos) {
+				oneName = temp.substr(0, c);
+				artists.push_back(oneName);
+				if (temp.size() > (4 + c))
+					temp = temp.substr(c + 4);
+				else
+					break;
+				c = temp.find("'");
+			}
+		}
+		else {
+			temp = temp.substr(2);
+			auto c = temp.find("'");
+			string oneName = temp.substr(0, c);
 			artists.push_back(oneName);
-			if (temp.size() > (4 + c))
-				temp = temp.substr(c + 4);
-			else
-				break;
-			c = temp.find("'");
 		}
 
 		getline(s, temp, ','); // Moving getline to correct position
@@ -76,9 +86,15 @@ void SongCollection::importSongs()
 		getline(s, temp, ',');
 		int mode = stoi(temp);
 
-		getline(s, temp, '"');
-		getline(s, temp, '"');
-		string name = temp;
+		
+		getline(s, temp, ',');
+		string temp1 = "";
+		int found = 0;
+		if (temp.find('\"') != string::npos) {
+			getline(s, temp1, '\"');
+			found = 1;
+		}
+		string name = temp.substr(found)+temp1;
 		
 		getline(s, temp, ','); // moving getline to right position
 		getline(s, temp, ',');
