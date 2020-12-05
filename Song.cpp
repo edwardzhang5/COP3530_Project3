@@ -22,6 +22,7 @@ Song::Song() {
 	tempo = 0;
 }
 
+
 Song::Song(double valence, int year, double acoustic, vector<string> artists, double dance, int duration, double energy, int exp, string id, double instrumental, int key, double liveness, double loudness, int mode, string name, int popularity, int release_year, double speech, double tempo)
 {
 	this->valence = valence;
@@ -43,4 +44,54 @@ Song::Song(double valence, int year, double acoustic, vector<string> artists, do
 	this->release_year = release_year;
 	this->speech = speech;
 	this->tempo = tempo;
+}
+
+double Song::getAcoustic()
+{
+	return acoustic;
+}
+
+double Song::getDance()
+{
+	return dance;
+}
+
+double Song::getEnergy()
+{
+	return energy;
+}
+
+double Song::getInstrumental()
+{
+	return instrumental;
+}
+
+double Song::getLiveness()
+{
+	return liveness;
+}
+
+double Song::getLoudness()
+{
+	return loudness;
+}
+
+double Song::getSpeech()
+{
+	return speech;
+}
+
+double Song::getTempo()
+{
+	return tempo;
+}
+
+double Song::getValence()
+{
+	return valence;
+}
+
+string Song::getName()
+{
+	return name;
 }
