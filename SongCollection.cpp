@@ -168,6 +168,7 @@ void SongCollection::importSongs()
 		songs.push_back(se);
 
 	}
+	// cout << songs.size();
 
 }
 
