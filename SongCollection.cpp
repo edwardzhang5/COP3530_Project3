@@ -21,7 +21,7 @@ void SongCollection::importSongs()
 	getline(file, line); // gets rid of first line of csv
 	
 	while (getline(file, line)) {
-
+		//========== Valence ==========//
 		string temp;
 		auto i1 = line.find(",");
 		temp = line.substr(0, i1);
@@ -31,17 +31,21 @@ void SongCollection::importSongs()
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
+
+		//========== Year ==========//
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		int year = stoi(temp);
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
+
+		//========== Acoustic ==========//
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
-		int acoustic = stoi(temp);
+		double acoustic = stod(temp);
 		if (acoustic > 1) { acoustic = 1; }
-		if (acoustic < 0) {acoustic = 0; }
+		if (acoustic < 0) { acoustic = 0; }
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
@@ -68,6 +72,8 @@ void SongCollection::importSongs()
 		line = line.substr(i2 + 1);
 		//========== End Finding Artists ==========//
 
+		
+		//========== Dance ==========//
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		double dance = stod(temp);
@@ -76,12 +82,16 @@ void SongCollection::importSongs()
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
+
+		//========== Duration ==========//
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		int duration = stoi(temp);
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
+
+		//========== Energy ==========//
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		double energy = stod(temp);
@@ -90,18 +100,24 @@ void SongCollection::importSongs()
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
+
+		//========== Explicit ==========//
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		int exp = stoi(temp);
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
+
+		//========== ID ==========//
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		string id = temp;
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
+
+		//========== Instrumental ==========//
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		double instrumental = stod(temp);
@@ -110,12 +126,16 @@ void SongCollection::importSongs()
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
+
+		//========== Key ==========//
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		int key = stoi(temp);
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
+
+		//========== Liveness ==========//
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		double liveness = stod(temp);
@@ -124,19 +144,28 @@ void SongCollection::importSongs()
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
+
+		//========== Loudness ==========//
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		double loudness = stod(temp);
 		if (loudness > 0) { loudness = 0; }
 		if (loudness < -60) { loudness = -60; }
+		loudness += 60;
+		loudness = loudness / 60;
+		// Min: Multiple : -60
+		// Max: Multiple : 0
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
+
+		//========== Mode ==========//
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		int mode = stoi(temp);
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
+
 
 		//========== Finding Name ==========//
 		i1 = line.find("\"");
@@ -145,7 +174,7 @@ void SongCollection::importSongs()
 
 		if (i1 != -1)
 		{
-			temp = line.substr(i1 + 1, i2 - i1 - 2);
+			temp = line.substr(i1 + 1, i2 - i1);
 			name = temp;
 			// cout << temp << ", ";
 			line = line.substr(i2 + 2);
@@ -159,19 +188,26 @@ void SongCollection::importSongs()
 			// cout << temp << ", ";
 			line = line.substr(i1 + 1);
 		}
+		//========== End Finding Name ==========//
 
+
+		//========== Popularity ==========//
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		int popularity = stoi(temp);
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
+		
+		//========== Release Year ==========//
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		int release_year = stoi(temp);
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 		
+		
+		//========== Speech ==========//
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		double speech = stod(temp);
@@ -180,9 +216,14 @@ void SongCollection::importSongs()
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
+		
+		//========== Tempo ==========//
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		double tempo = stod(temp);
+		tempo = tempo / 243.507;
+		// Min: Multiple : 0
+		// Max: "I Don't Want You On My Mind" : 243.507
 		// cout << temp << endl;
 
 		Song se(valence, year, acoustic, artists, dance, duration, energy, exp, id, instrumental, key, liveness, loudness, mode, name, popularity, release_year, speech, tempo);
@@ -357,7 +398,7 @@ void SongCollection::testPrint()
 {
 	for (int x = 0; x < songs.size(); x++)
 	{
-		cout << songs.at(x).getAcoustic() <<" " << songs.at(x).getName() << endl;
+		cout << songs.at(x).getLoudness() <<" " << songs.at(x).getName() << endl;
 	}
 
 }

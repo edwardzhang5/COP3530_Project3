@@ -13,8 +13,8 @@ int main()
 	SongCollection songs;
 	songs.importSongs();
 
-	songs.heapSort("Acoustic");
-	songs.testPrint();
+	// songs.heapSort("Loudness");
+	// songs.testPrint();
 
 	vector<Song> user_input;
 
