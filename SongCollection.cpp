@@ -26,6 +26,8 @@ void SongCollection::importSongs()
 		auto i1 = line.find(",");
 		temp = line.substr(0, i1);
 		double valence = stod(temp);
+		if (valence > 1) { valence = 1; }
+		if (valence < 0) { valence = 0; }
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
@@ -38,6 +40,8 @@ void SongCollection::importSongs()
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		int acoustic = stoi(temp);
+		if (acoustic > 1) { acoustic = 1; }
+		if (acoustic < 0) {acoustic = 0; }
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
@@ -67,6 +71,8 @@ void SongCollection::importSongs()
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		double dance = stod(temp);
+		if (dance > 1) { dance = 1; }
+		if (dance < 0) { dance = 0; }
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
@@ -79,6 +85,8 @@ void SongCollection::importSongs()
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		double energy = stod(temp);
+		if (energy > 1) { energy = 1; }
+		if (energy < 0) { energy = 0; }
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
@@ -97,6 +105,8 @@ void SongCollection::importSongs()
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		double instrumental = stod(temp);
+		if (instrumental > 1) { instrumental = 1; }
+		if (instrumental < 0) { instrumental = 0; }
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
@@ -109,12 +119,16 @@ void SongCollection::importSongs()
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		double liveness = stod(temp);
+		if (liveness > 1) { liveness = 1; }
+		if (liveness < 0) { liveness = 0; }
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		double loudness = stod(temp);
+		if (loudness > 0) { loudness = 0; }
+		if (loudness < -60) { loudness = -60; }
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
@@ -161,6 +175,8 @@ void SongCollection::importSongs()
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		double speech = stod(temp);
+		if (speech > 1) { speech = 1; }
+		if (speech < 0) { speech = 0; }
 		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
