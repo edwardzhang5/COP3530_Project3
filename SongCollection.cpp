@@ -5,11 +5,13 @@ using namespace std;
 SongCollection::SongCollection()
 {
 	songs = {};
+	numSongs = 0;
 }
 
 SongCollection::SongCollection(vector<Song> songs)
 {
 	this->songs = songs;
+	numSongs = songs.size();
 }
 
 void SongCollection::importSongs()
@@ -21,6 +23,8 @@ void SongCollection::importSongs()
 	getline(file, line); // gets rid of first line of csv
 	
 	while (getline(file, line)) {
+		numSongs++; // Keeps track of number of songs in collection
+
 		//========== Valence ==========//
 		string temp;
 		auto i1 = line.find(",");
@@ -234,6 +238,75 @@ void SongCollection::importSongs()
 
 }
 
+void SongCollection::quickSort(string attribute, int low, int high)
+{
+	if (low < high) 
+	{
+		int piv = partition(attribute, low, high);
+
+		// Sorts elements before and after partition
+		quickSort(attribute, low, piv - 1);
+		quickSort(attribute, piv + 1, high);
+
+	}
+}
+
+int SongCollection::partition(string attribute, int low, int high)
+{
+	if (attribute == "Acoustic" || attribute == "acoustic")
+	{
+		
+	}
+
+	else if (attribute == "Dance" || attribute == "dance")
+	{
+
+	}
+
+	else if (attribute == "Energy" || attribute == "energy")
+	{
+		
+	}
+
+	else if (attribute == "Instrumental" || attribute == "instrumental")
+	{
+		
+	}
+
+	else if (attribute == "Liveness" || attribute == "liveness")
+	{
+		
+	}
+
+	else if (attribute == "Loudness" || attribute == "loudness")
+	{
+		
+	}
+
+	else if (attribute == "Speech" || attribute == "speech")
+	{
+		
+	}
+
+	else if (attribute == "Valence" || attribute == "valence")
+	{
+		
+	}
+
+	else if (attribute == "Tempo" || attribute =="tempo")
+	{
+		
+	}
+
+}
+
+void SongCollection::swap(int index1, int index2)
+{
+	auto temp = songs[index1];
+	songs[index1] = songs[index2];
+	songs[index2] = temp;
+}
+
 void SongCollection::heapifyDown(int index, string attribute, int size)
 {
 	
@@ -391,6 +464,11 @@ void SongCollection::heapSort(string attribute)
 		
 	}
 
+}
+
+int SongCollection::getNumSongs()
+{
+	return numSongs;
 }
 
 //test print method to see if sorts worked
