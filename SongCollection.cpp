@@ -7,6 +7,11 @@ SongCollection::SongCollection()
 	songs = {};
 }
 
+SongCollection::SongCollection(vector<Song> songs)
+{
+	this->songs = songs;
+}
+
 void SongCollection::importSongs()
 {
 	ifstream file;
@@ -172,3 +177,171 @@ void SongCollection::importSongs()
 
 }
 
+void SongCollection::heapifyDown(int index, string attribute, int size)
+{
+	
+		int leftIndex = (2 * index) + 1;
+		int rightIndex = (2 * index) + 2;
+		int greatestIndex = index;
+		
+		//Different if branch is entered depending on which attribute we are sorting by
+		if (attribute == "Acoustic")
+		{
+			if (leftIndex < size && songs.at(leftIndex).getAcoustic() > songs.at(greatestIndex).getAcoustic())
+			{
+				greatestIndex = leftIndex;
+			}
+
+			if (rightIndex < size && songs.at(rightIndex).getAcoustic() > songs.at(greatestIndex).getAcoustic())
+			{
+				greatestIndex = rightIndex;
+			}
+		}
+
+		else if (attribute == "Dance")
+		{
+			if (leftIndex < size && songs.at(leftIndex).getDance() > songs.at(greatestIndex).getDance())
+			{
+				greatestIndex = leftIndex;
+			}
+
+			if (rightIndex < size && songs.at(rightIndex).getDance() > songs.at(greatestIndex).getDance())
+			{
+				greatestIndex = rightIndex;
+			}
+		}
+
+		else if (attribute == "Energy")
+		{
+			if (leftIndex < size && songs.at(leftIndex).getEnergy() > songs.at(greatestIndex).getEnergy())
+			{
+				greatestIndex = leftIndex;
+			}
+
+			if (rightIndex < size && songs.at(rightIndex).getEnergy() > songs.at(greatestIndex).getEnergy())
+			{
+				greatestIndex = rightIndex;
+			}
+		}
+
+		else if (attribute == "Instrumental")
+		{
+			if (leftIndex < size && songs.at(leftIndex).getInstrumental() > songs.at(greatestIndex).getInstrumental())
+			{
+				greatestIndex = leftIndex;
+			}
+
+			if (rightIndex < size && songs.at(rightIndex).getInstrumental() > songs.at(greatestIndex).getInstrumental())
+			{
+				greatestIndex = rightIndex;
+			}
+		}
+
+		else if (attribute == "Liveness")
+		{
+			if (leftIndex < size && songs.at(leftIndex).getLiveness() > songs.at(greatestIndex).getLiveness())
+			{
+				greatestIndex = leftIndex;
+			}
+
+			if (rightIndex < size && songs.at(rightIndex).getLiveness() > songs.at(greatestIndex).getLiveness())
+			{
+				greatestIndex = rightIndex;
+			}
+		}
+
+		else if (attribute == "Loudness")
+		{
+			if (leftIndex < size && songs.at(leftIndex).getLoudness() > songs.at(greatestIndex).getLoudness())
+			{
+				greatestIndex = leftIndex;
+			}
+
+			if (rightIndex < size && songs.at(rightIndex).getLoudness() > songs.at(greatestIndex).getLoudness())
+			{
+				greatestIndex = rightIndex;
+			}
+		}
+
+		else if (attribute == "Speech")
+		{
+			if (leftIndex < size && songs.at(leftIndex).getSpeech() > songs.at(greatestIndex).getSpeech())
+			{
+				greatestIndex = leftIndex;
+			}
+
+			if (rightIndex < size && songs.at(rightIndex).getSpeech() > songs.at(greatestIndex).getSpeech())
+			{
+				greatestIndex = rightIndex;
+			}
+		}
+
+		else if (attribute == "Valence")
+		{
+			if (leftIndex < size && songs.at(leftIndex).getValence() > songs.at(greatestIndex).getValence())
+			{
+				greatestIndex = leftIndex;
+			}
+
+			if (rightIndex < size && songs.at(rightIndex).getValence() > songs.at(greatestIndex).getValence())
+			{
+				greatestIndex = rightIndex;
+			}
+		}
+
+		else if (attribute == "Tempo")
+		{
+			if (leftIndex < size && songs.at(leftIndex).getTempo() > songs.at(greatestIndex).getTempo())
+			{
+				greatestIndex = leftIndex;
+			}
+
+			if (rightIndex < size && songs.at(rightIndex).getTempo() > songs.at(greatestIndex).getTempo())
+			{
+				greatestIndex = rightIndex;
+			}
+		}
+
+	
+		// swap if one of the children of index are greater
+		if (greatestIndex != index)
+		{
+			Song temp = songs.at(index);
+			songs.at(index) = songs.at(greatestIndex);
+			songs.at(greatestIndex) = temp;
+			heapifyDown(greatestIndex,attribute,size);
+		}
+	
+}
+
+void SongCollection::heapSort(string attribute)
+{
+	//build max heap
+	for (int i = songs.size() / 2; i > 0; i--)
+	{
+		//heapify based on which attribute we are sorting by
+		heapifyDown(i - 1, attribute, songs.size());
+	}
+
+	int endIndex = songs.size() - 1;
+	for (endIndex; endIndex > 0; endIndex--)
+	{
+		Song temp = songs.at(0);
+		songs.at(0) = songs.at(endIndex);
+		songs.at(endIndex) = temp;
+
+		heapifyDown(0, attribute, endIndex);
+		
+	}
+
+}
+
+//test print method to see if sorts worked
+void SongCollection::testPrint()
+{
+	for (int x = 0; x < songs.size(); x++)
+	{
+		cout << songs.at(x).getAcoustic() <<" " << songs.at(x).getName() << endl;
+	}
+
+}

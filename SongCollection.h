@@ -14,5 +14,9 @@ private:
 
 public:
 	SongCollection();
+	SongCollection(vector<Song> songs);
 	void importSongs();
+	void heapifyDown(int index,string attribute, int size);
+	void heapSort(string attribute);
+	void testPrint();
 };
