@@ -46,6 +46,56 @@ Song::Song(double valence, int year, double acoustic, vector<string> artists, do
 	this->tempo = tempo;
 }
 
+double Song::getAttribute(string attribute)
+{
+	if (attribute == "Acoustic" || attribute == "acoustic")
+	{
+		return acoustic;
+	}
+
+	else if (attribute == "Dance" || attribute == "dance")
+	{
+		return dance;
+	}
+
+	else if (attribute == "Energy" || attribute == "energy")
+	{
+		return energy;
+	}
+
+	else if (attribute == "Instrumental" || attribute == "instrumental")
+	{
+		return instrumental;
+	}
+
+	else if (attribute == "Liveness" || attribute == "liveness")
+	{
+		return liveness;
+	}
+
+	else if (attribute == "Loudness" || attribute == "loudness")
+	{
+		return loudness;
+	}
+
+	else if (attribute == "Speech" || attribute == "speech")
+	{
+		return speech;
+	}
+
+	else if (attribute == "Valence" || attribute == "valence")
+	{
+		return valence;
+	}
+
+	else if (attribute == "Tempo" || attribute == "tempo")
+	{
+		return tempo;
+	}
+	else
+		return 0;
+}
+
 double Song::getAcoustic()
 {
 	return acoustic;

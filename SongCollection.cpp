@@ -240,6 +240,7 @@ void SongCollection::importSongs()
 
 void SongCollection::quickSort(string attribute, int low, int high)
 {
+	// loosely inspired by lecture slides
 	if (low < high) 
 	{
 		int piv = partition(attribute, low, high);
@@ -253,51 +254,30 @@ void SongCollection::quickSort(string attribute, int low, int high)
 
 int SongCollection::partition(string attribute, int low, int high)
 {
-	if (attribute == "Acoustic" || attribute == "acoustic")
-	{
+	// loosely inspired by lecture slides
+	int up = low;
+	int down = high;
+
+	auto pivot = songs[low].getAttribute(attribute);
+	while (down > up) {
+		for (int i = high; i > low; i--) {
+			if (songs[down].getAttribute(attribute) < pivot)
+				break;
+			down--;
+		}
+		for (int i = up; i < high; i++) {
+			if (songs[up].getAttribute(attribute) > pivot)
+				break;
+			up++;
+		}
+
+		if (down > up)
+			swap(up, down);
+	}
 		
-	}
-
-	else if (attribute == "Dance" || attribute == "dance")
-	{
-
-	}
-
-	else if (attribute == "Energy" || attribute == "energy")
-	{
-		
-	}
-
-	else if (attribute == "Instrumental" || attribute == "instrumental")
-	{
-		
-	}
-
-	else if (attribute == "Liveness" || attribute == "liveness")
-	{
-		
-	}
-
-	else if (attribute == "Loudness" || attribute == "loudness")
-	{
-		
-	}
-
-	else if (attribute == "Speech" || attribute == "speech")
-	{
-		
-	}
-
-	else if (attribute == "Valence" || attribute == "valence")
-	{
-		
-	}
-
-	else if (attribute == "Tempo" || attribute =="tempo")
-	{
-		
-	}
-
+	swap(low, down);
+	return down;
+	
 }
 
 void SongCollection::swap(int index1, int index2)
@@ -476,7 +456,7 @@ void SongCollection::testPrint()
 {
 	for (int x = 0; x < songs.size(); x++)
 	{
-		cout << songs.at(x).getLoudness() <<" " << songs.at(x).getName() << endl;
+		cout << x << " " << songs.at(x).getName() << songs[x].getAcoustic()<< endl;
 	}
 
 }

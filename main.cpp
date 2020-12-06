@@ -12,6 +12,8 @@ int main()
 {
 	SongCollection songs;
 	songs.importSongs();
+	songs.quickSort("acoustic", 0, songs.getNumSongs()-1);
+	songs.testPrint();
 
 	// songs.heapSort("Loudness");
 	// songs.testPrint();
@@ -31,7 +33,7 @@ int main()
 	double valence = 0;
 	
 	//========== Calculating Means ==========//
-	for (int i = 0; i < user_input.size(); i++)
+	for (unsigned int i = 0; i < user_input.size(); i++)
 	{
 		acousticness += user_input[i].getAcoustic();
 		dance = user_input[i].getDance();
@@ -65,7 +67,7 @@ int main()
 	double d_tempo = 0;
 	double d_valence = 0;
 
-	for (int i = 0; i < user_input.size(); i++)
+	for (unsigned int i = 0; i < user_input.size(); i++)
 	{
 		d_acousticness += pow(user_input[i].getAcoustic() - m_acousticness, 2);
 		d_dance += pow(user_input[i].getDance() - m_dance, 2);
