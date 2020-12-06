@@ -92,54 +92,13 @@ double Song::getAttribute(string attribute)
 	{
 		return tempo;
 	}
-	else
+	else {
+		std::cout << "Improper Attribute was referenced!" << std::endl;
 		return 0;
+	}
 }
 
-double Song::getAcoustic()
-{
-	return acoustic;
-}
 
-double Song::getDance()
-{
-	return dance;
-}
-
-double Song::getEnergy()
-{
-	return energy;
-}
-
-double Song::getInstrumental()
-{
-	return instrumental;
-}
-
-double Song::getLiveness()
-{
-	return liveness;
-}
-
-double Song::getLoudness()
-{
-	return loudness;
-}
-
-double Song::getSpeech()
-{
-	return speech;
-}
-
-double Song::getTempo()
-{
-	return tempo;
-}
-
-double Song::getValence()
-{
-	return valence;
-}
 
 string Song::getName()
 {

@@ -12,7 +12,9 @@ int main()
 {
 	SongCollection songs;
 	songs.importSongs();
-	songs.quickSort("acoustic", 0, songs.getNumSongs()-1);
+	songs.heapSort("tempo");
+
+	//songs.quickSort("acoustic", 0, songs.getNumSongs()-1);
 	songs.testPrint();
 
 	// songs.heapSort("Loudness");
@@ -35,15 +37,15 @@ int main()
 	//========== Calculating Means ==========//
 	for (unsigned int i = 0; i < user_input.size(); i++)
 	{
-		acousticness += user_input[i].getAcoustic();
-		dance = user_input[i].getDance();
-		energy += user_input[i].getEnergy();
-		instrumental += user_input[i].getInstrumental();
-		liveness += user_input[i].getLiveness();
-		loudness += user_input[i].getLoudness();
-		speech += user_input[i].getSpeech();
-		tempo += user_input[i].getTempo();
-		valence += user_input[i].getValence();
+		acousticness += user_input[i].getAttribute("acoustic");
+		dance = user_input[i].getAttribute("dance");
+		energy += user_input[i].getAttribute("energy");
+		instrumental += user_input[i].getAttribute("instrumental");
+		liveness += user_input[i].getAttribute("liveness");
+		loudness += user_input[i].getAttribute("loudness");
+		speech += user_input[i].getAttribute("speech");
+		tempo += user_input[i].getAttribute("tempo");
+		valence += user_input[i].getAttribute("valence");
 	}
 
 	double m_acousticness = acousticness / user_input.size();
@@ -69,15 +71,15 @@ int main()
 
 	for (unsigned int i = 0; i < user_input.size(); i++)
 	{
-		d_acousticness += pow(user_input[i].getAcoustic() - m_acousticness, 2);
-		d_dance += pow(user_input[i].getDance() - m_dance, 2);
-		d_energy += pow(user_input[i].getEnergy() - m_energy, 2);
-		d_instrumental += pow(user_input[i].getInstrumental() - m_instrumental, 2);
-		d_liveness += pow(user_input[i].getLiveness() - m_liveness, 2);
-		d_loudness += pow(user_input[i].getLoudness() - m_loudness, 2);
-		d_speech += pow(user_input[i].getSpeech() - m_speech, 2);
-		d_tempo += pow(user_input[i].getTempo() - m_tempo, 2);
-		d_valence += pow(user_input[i].getValence() - m_valence, 2);
+		d_acousticness += pow(user_input[i].getAttribute("acoustic") - m_acousticness, 2);
+		d_dance += pow(user_input[i].getAttribute("dance") - m_dance, 2);
+		d_energy += pow(user_input[i].getAttribute("energy") - m_energy, 2);
+		d_instrumental += pow(user_input[i].getAttribute("instrumental") - m_instrumental, 2);
+		d_liveness += pow(user_input[i].getAttribute("liveness") - m_liveness, 2);
+		d_loudness += pow(user_input[i].getAttribute("loudness") - m_loudness, 2);
+		d_speech += pow(user_input[i].getAttribute("speech") - m_speech, 2);
+		d_tempo += pow(user_input[i].getAttribute("tempo") - m_tempo, 2);
+		d_valence += pow(user_input[i].getAttribute("valence") - m_valence, 2);
 	}
 
 	double s_acousticness = pow(d_acousticness / user_input.size(), .5);
