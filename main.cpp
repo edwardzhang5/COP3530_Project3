@@ -18,6 +18,20 @@ void insert_ordered(vector<pair<string, double>>& vect, pair<string, double> tem
 	vect.insert(iter, temp_pair);
 }
 
+
+void insert_ordered(vector<pair<double, Song>>& vect, pair<double, Song> temp_pair)
+{
+	auto iter = vect.begin();
+
+	while (iter != vect.end() && iter->first < temp_pair.first)
+	{
+		iter++;
+	}
+
+	vect.insert(iter, temp_pair);
+}
+
+
 int main()
 {
 	cout << "Welcome to \"Just Beat It\"" << endl;
@@ -184,11 +198,22 @@ int main()
 		cout << i + 1 << ". " << sorted_vect[i].first << ": " << sorted_vect[i].second << endl;
 	}
 
-	cout << "Please enter the number of the option.";
+	cout << "Please enter the number of the option: ";
 
 	string response;
 	getline(cin, response);
 	int i1 = stoi(response);
+
+	double mean;
+	if (sorted_vect[i1].first == "Acoustic") { mean = m_acousticness; }
+	else if (sorted_vect[i1].first == "Dance") { mean = m_dance; }
+	else if (sorted_vect[i1].first == "Energy") { mean = m_energy; }
+	else if (sorted_vect[i1].first == "Instrumental") { mean = m_instrumental; }
+	else if (sorted_vect[i1].first == "Liveness") { mean = m_liveness; }
+	else if (sorted_vect[i1].first == "Loudness") { mean = m_loudness; }
+	else if (sorted_vect[i1].first == "Speech") { mean = m_speech; }
+	else if (sorted_vect[i1].first == "Tempo") { mean = m_tempo; }
+	else if (sorted_vect[i1].first == "Valence") { mean = m_valence; }
 
 	cout << endl << "Which sorting algorithm would you like to use?" << endl;
 	cout << "1. Heap Sort" << endl;
@@ -205,6 +230,45 @@ int main()
 	else if (i2 == 2)
 	{
 		songs.quickSort(sorted_vect[i1 - 1].first, 0, songs.getNumSongs() - 1);
+	}
+
+	vector<pair<double, Song>> recommended;
+
+	for (int i = 0; i < songs.getNumSongs(); i++)
+	{
+		if (songs.getSongs()[i].getAttribute(sorted_vect[i1 - 1].first) >= mean - sorted_vect[i1 - 1].second)
+		{
+			if (songs.getSongs()[i].getAttribute(sorted_vect[i1 - 1].first) >= sorted_vect[i1 - 1].second + mean)
+			{
+				break;
+			}
+
+			else
+			{
+				insert_ordered(recommended, make_pair(abs(mean - songs.getSongs()[i].getAttribute(sorted_vect[i1 - 1].first)), songs.getSongs()[i]));
+			}
+		}
+	}
+
+	cout << endl << "How many songs would you like to be recommended? (Max: 20) ";
+	getline(cin, response);
+
+	count = stoi(response);
+
+	for (int i = 0; i < count; i++)
+	{
+		cout << i + 1 << ". " << recommended[i].second.getName() << " | ";
+
+		for (int j = 0; j < recommended[i].second.getArtists().size(); j++)
+		{
+			if (j != recommended[i].second.getArtists().size() && j != 0)
+			{
+				cout << ", ";
+			}
+			cout << recommended[i].second.getArtists()[j];
+		}
+
+		cout << " | Difference: " << recommended[i].first << endl;
 	}
 
 	return 0;
