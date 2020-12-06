@@ -16,6 +16,7 @@ private:
 public:
 	SongCollection();
 	SongCollection(vector<Song> songs);
+	vector<Song>& getSongs();
 	void importSongs();
 
 	void quickSort(string attribute, int low, int high);

@@ -98,7 +98,10 @@ double Song::getAttribute(string attribute)
 	}
 }
 
-
+vector<string> Song::getArtists()
+{
+	return artists;
+}
 
 string Song::getName()
 {

@@ -14,6 +14,11 @@ SongCollection::SongCollection(vector<Song> songs)
 	numSongs = songs.size();
 }
 
+vector<Song>& SongCollection::getSongs()
+{
+	return songs;
+}
+
 void SongCollection::importSongs()
 {
 	ifstream file;

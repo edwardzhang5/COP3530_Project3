@@ -10,18 +10,81 @@ using namespace std;
 
 int main()
 {
+	cout << "Welcome to \"Just Beat It\"" << endl;
+	cout << "Reading in song information..." << endl << endl;
 	SongCollection songs;
 	songs.importSongs();
-	songs.heapSort("tempo");
 
-	//songs.quickSort("acoustic", 0, songs.getNumSongs()-1);
-	songs.testPrint();
-
-	// songs.heapSort("Loudness");
-	// songs.testPrint();
-
+	//========== Getting User Input ==========//
 	vector<Song> user_input;
+	int i;
+	int j;
+	int count = 0;
+	string name;
+	string temp;
+	bool found = false;
 
+	cout << "Number of songs being inputted: ";
+	getline(cin, temp);
+
+	i = stoi(temp);
+
+	while (count < i)
+	{
+		cout << "Please enter song name: ";
+		getline(cin, name);
+		cout << "Finding song..." << endl;
+
+		j = 0;
+		found = false;
+
+
+		while (found == false && j < songs.getSongs().size())
+		{
+			if (songs.getSongs()[j].getName().find(name) != -1)
+			{
+				cout << endl << "Is this the correct song? (Y/N)" << endl;
+				cout << songs.getSongs()[j].getName() << ", " << songs.getSongs()[j].getArtists()[0] << endl;
+
+				string response;
+				getline(cin, response);
+
+				if (response == "Y")
+				{
+					user_input.push_back(songs.getSongs()[j]);
+					found = true;
+					break;
+				}
+
+				else if (response == "N")
+				{
+					cout << "Continuing search..." << endl;
+				}
+
+				else
+				{
+					cout << "Next time please respond with either 'Y' or 'N'" << endl;
+					cout << "Continuing previous search" << endl;
+					j--;
+				}
+			}
+
+			j++;
+
+		}
+
+		if (found)
+		{
+			cout << endl <<  "Succesfully found song." << endl;
+			cout << user_input[count].getName() << ", " << user_input[count].getArtists()[0] << endl << endl;
+			count++;
+		}
+
+		else
+		{
+			cout << "Could not find song with name \"" << name << ".\" Please ensure that you entered the name properly" << endl;
+		}
+	}
 	vector<pair<double, double>> song_statistics;
 
 	double acousticness = 0;
@@ -92,6 +155,8 @@ int main()
 	double s_tempo = pow(d_tempo / user_input.size(), .5);
 	double s_valence = pow(d_valence / user_input.size(), .5);
 	//========== End Calculations ==========//
+
+	vector<double> heap;
 
 
 	return 0;
