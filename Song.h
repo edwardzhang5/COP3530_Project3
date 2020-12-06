@@ -36,5 +36,7 @@ public:
 	
 	double getAttribute(string attribute);
 
+	vector<string> getArtists();
+
 	string getName();
 };
