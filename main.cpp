@@ -6,7 +6,17 @@
 
 using namespace std;
 
+void insert_ordered(vector<pair<string, double>>& vect, pair<string, double> temp_pair)
+{
+	auto iter = vect.begin();
 
+	while (iter != vect.end() && iter->second < temp_pair.second)
+	{
+		iter++;
+	}
+
+	vect.insert(iter, temp_pair);
+}
 
 int main()
 {
@@ -146,7 +156,7 @@ int main()
 	}
 
 	double s_acousticness = pow(d_acousticness / user_input.size(), .5);
-	double s_dance = pow(d_energy / user_input.size(), .5);
+	double s_dance = pow(d_dance / user_input.size(), .5);
 	double s_energy = pow(d_energy / user_input.size(), .5);
 	double s_instrumental = pow(d_instrumental / user_input.size(), .5);
 	double s_liveness = pow(d_liveness / user_input.size(), .5);
@@ -156,8 +166,46 @@ int main()
 	double s_valence = pow(d_valence / user_input.size(), .5);
 	//========== End Calculations ==========//
 
-	vector<double> heap;
+	vector<pair<string, double>> sorted_vect;
+	insert_ordered(sorted_vect, make_pair("Acoustic", s_acousticness));
+	insert_ordered(sorted_vect, make_pair("Dance", s_dance));
+	insert_ordered(sorted_vect, make_pair("Energy", s_energy));
+	insert_ordered(sorted_vect, make_pair("Instrumental", s_instrumental));
+	insert_ordered(sorted_vect, make_pair("Liveness", s_liveness));
+	insert_ordered(sorted_vect, make_pair("Loudness", s_loudness));
+	insert_ordered(sorted_vect, make_pair("Speech", s_speech));
+	insert_ordered(sorted_vect, make_pair("Tempo", s_tempo));
+	insert_ordered(sorted_vect, make_pair("Valence", s_valence));
 
+	cout << "Which value would you like to match by? (Recommended: " << sorted_vect[0].first << ")" << endl;
+	
+	for (int i = 0; i < sorted_vect.size(); i++)
+	{
+		cout << i + 1 << ". " << sorted_vect[i].first << ": " << sorted_vect[i].second << endl;
+	}
+
+	cout << "Please enter the number of the option.";
+
+	string response;
+	getline(cin, response);
+	int i1 = stoi(response);
+
+	cout << endl << "Which sorting algorithm would you like to use?" << endl;
+	cout << "1. Heap Sort" << endl;
+	cout << "2. Quick Sort" << endl;
+
+	getline(cin, response);
+	int i2 = stoi(response);
+
+	if (i2 == 1)
+	{
+		songs.heapSort(sorted_vect[i1 - 1].first);
+	}
+
+	else if (i2 == 2)
+	{
+		songs.quickSort(sorted_vect[i1 - 1].first, 0, songs.getNumSongs() - 1);
+	}
 
 	return 0;
 }
