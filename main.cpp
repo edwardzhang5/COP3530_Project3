@@ -224,6 +224,7 @@ int main()
 		try
 		{
 			i1 = stoi(response);
+
 			if (i1 < 10 && i1>0) {
 				inputFlag = true;
 			}
@@ -232,25 +233,26 @@ int main()
 				getline(cin, response);
 			}
 		}
-		catch (exception &e)
+		catch (exception& e)
 		{
 			cout << "Please enter a valid number (1-" << sorted_vect.size() << ")" << endl;
 			getline(cin, response);
 		}
 	}
+	cout << i1 << endl;
 
 	double mean= -1;
 
-	i1--;
-	if (sorted_vect[i1].first == "Acoustic") { mean = m_acousticness; }
-	else if (sorted_vect[i1].first == "Dance") { mean = m_dance; }
-	else if (sorted_vect[i1].first == "Energy") { mean = m_energy; }
-	else if (sorted_vect[i1].first == "Instrumental") { mean = m_instrumental; }
-	else if (sorted_vect[i1].first == "Liveness") { mean = m_liveness; }
-	else if (sorted_vect[i1].first == "Loudness") { mean = m_loudness; }
-	else if (sorted_vect[i1].first == "Speech") { mean = m_speech; }
-	else if (sorted_vect[i1].first == "Tempo") { mean = m_tempo; }
-	else if (sorted_vect[i1].first == "Valence") { mean = m_valence; }
+	
+	if (sorted_vect[i1-1].first == "Acoustic") { mean = m_acousticness; }
+	else if (sorted_vect[i1-1].first == "Dance") { mean = m_dance; }
+	else if (sorted_vect[i1-1].first == "Energy") { mean = m_energy; }
+	else if (sorted_vect[i1-1].first == "Instrumental") { mean = m_instrumental; }
+	else if (sorted_vect[i1-1].first == "Liveness") { mean = m_liveness; }
+	else if (sorted_vect[i1-1].first == "Loudness") { mean = m_loudness; }
+	else if (sorted_vect[i1-1].first == "Speech") { mean = m_speech; }
+	else if (sorted_vect[i1-1].first == "Tempo") { mean = m_tempo; }
+	else if (sorted_vect[i1-1].first == "Valence") { mean = m_valence; }
 
 	cout << endl << "Which sorting algorithm would you like to use to sort the dataset?" << endl;
 	cout << "1. Heap Sort" << endl;
@@ -280,7 +282,7 @@ int main()
 	
 
 	cout << "Sorting...\n\n";
-	i1++;
+	
 	if (i2 == 1)
 	{
 		auto start = high_resolution_clock::now();
@@ -330,6 +332,7 @@ int main()
 	cout << endl << "How many songs would you like to be recommended? (Max: " << maxRecommend << ")" << endl;;
 	getline(cin, response);
 	int songCount=0;
+	inputFlag = false;
 	while (!inputFlag) {
 		try
 		{
@@ -347,6 +350,7 @@ int main()
 			getline(cin, response);
 		}
 	}
+	
 
 	for (int i = 0; i < songCount; i++)
 	{
