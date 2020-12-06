@@ -240,7 +240,7 @@ void SongCollection::importSongs()
 
 void SongCollection::quickSort(string attribute, int low, int high)
 {
-	// loosely inspired by lecture slides
+	// loosely inspired by lecture slides on sorting
 	if (low < high) 
 	{
 		int piv = partition(attribute, low, high);
@@ -254,7 +254,7 @@ void SongCollection::quickSort(string attribute, int low, int high)
 
 int SongCollection::partition(string attribute, int low, int high)
 {
-	// loosely inspired by lecture slides
+	// loosely inspired by lecture slides on sorting
 	int up = low;
 	int down = high;
 
@@ -305,8 +305,6 @@ void SongCollection::heapifyDown(int index, string attribute, int size)
 		{
 			greatestIndex = rightIndex;
 		}
-
-		
 
 	
 		// swap if one of the children of index are greater
