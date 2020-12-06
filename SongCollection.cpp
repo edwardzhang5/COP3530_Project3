@@ -353,7 +353,7 @@ int SongCollection::getNumSongs()
 //test print method to see if sorts worked
 void SongCollection::testPrint()
 {
-	for (int x = 0; x < songs.size(); x++)
+	for (unsigned int x = 0; x < songs.size(); x++)
 	{
 		cout << x << " " << songs.at(x).getName() <<" | "<< songs[x].getAttribute("tempo")<< endl;
 	}

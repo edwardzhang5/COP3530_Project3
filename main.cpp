@@ -1,10 +1,13 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <chrono>
+#include <exception>
 #include <math.h>
 #include "SongCollection.h"
 
 using namespace std;
+using namespace std::chrono;
 
 void insert_ordered(vector<pair<string, double>>& vect, pair<string, double> temp_pair)
 {
@@ -42,7 +45,7 @@ int main()
 	//========== Getting User Input ==========//
 	vector<Song> user_input;
 	int i;
-	int j;
+	unsigned int j;
 	int count = 0;
 	string name;
 	string temp;
@@ -58,6 +61,7 @@ int main()
 		cout << "Please enter song name: ";
 		getline(cin, name);
 		cout << "Finding song..." << endl;
+		cout << "Type \"E\" to exit the current search at anytime." << endl;
 
 		j = 0;
 		found = false;
@@ -68,19 +72,30 @@ int main()
 			if (songs.getSongs()[j].getName().find(name) != -1)
 			{
 				cout << endl << "Is this the correct song? (Y/N)" << endl;
-				cout << songs.getSongs()[j].getName() << ", " << songs.getSongs()[j].getArtists()[0] << endl;
+				
+				cout << songs.getSongs()[j].getName() << ", " << songs.getSongs()[j].getArtists()[0];
+				if (songs.getSongs()[j].getArtists().size() > 1)
+					cout << ", " << songs.getSongs()[j].getArtists()[1] << "..." << endl;
+				else
+					cout << endl;
 
 				string response;
 				getline(cin, response);
 
-				if (response == "Y")
+				if (response == "Y"||response=="y")
 				{
 					user_input.push_back(songs.getSongs()[j]);
 					found = true;
 					break;
 				}
 
-				else if (response == "N")
+				else if (response == "E" || response == "e") 
+				{
+					cout << "Exiting current search..." << endl;
+					break;
+				}
+
+				else if (response == "N"|| response=="n")
 				{
 					cout << "Continuing search..." << endl;
 				}
@@ -193,7 +208,7 @@ int main()
 
 	cout << "Which value would you like to match by? (Recommended: " << sorted_vect[0].first << ")" << endl;
 	
-	for (int i = 0; i < sorted_vect.size(); i++)
+	for (unsigned int i = 0; i < sorted_vect.size(); i++)
 	{
 		cout << i + 1 << ". " << sorted_vect[i].first << ": " << sorted_vect[i].second << endl;
 	}
@@ -202,9 +217,31 @@ int main()
 
 	string response;
 	getline(cin, response);
-	int i1 = stoi(response);
+	int i1;
+	bool inputFlag = false;
 
-	double mean;
+	while (!inputFlag) {
+		try
+		{
+			i1 = stoi(response);
+			if (i1 < 10 && i1>0) {
+				inputFlag = true;
+			}
+			else {
+				cout << "Please enter a number 1-9" << endl;
+				getline(cin, response);
+			}
+		}
+		catch (exception &e)
+		{
+			cout << "Please enter a valid number (1-" << sorted_vect.size() << ")" << endl;
+			getline(cin, response);
+		}
+	}
+
+	double mean= -1;
+
+	i1--;
 	if (sorted_vect[i1].first == "Acoustic") { mean = m_acousticness; }
 	else if (sorted_vect[i1].first == "Dance") { mean = m_dance; }
 	else if (sorted_vect[i1].first == "Energy") { mean = m_energy; }
@@ -215,22 +252,57 @@ int main()
 	else if (sorted_vect[i1].first == "Tempo") { mean = m_tempo; }
 	else if (sorted_vect[i1].first == "Valence") { mean = m_valence; }
 
-	cout << endl << "Which sorting algorithm would you like to use?" << endl;
+	cout << endl << "Which sorting algorithm would you like to use to sort the dataset?" << endl;
 	cout << "1. Heap Sort" << endl;
 	cout << "2. Quick Sort" << endl;
 
 	getline(cin, response);
-	int i2 = stoi(response);
+	inputFlag = false;
+	int i2;
 
+	while (!inputFlag) {
+		try
+		{
+			i2 = stoi(response);
+			if (i2 < 3 && i2>0)
+				inputFlag = true;
+			else {
+				cout << "Please enter a valid response (1-2)" << endl;
+				getline(cin, response);
+			}
+		}
+		catch (exception& e)
+		{
+			cout << "Please enter a valid response (1-2)" << endl;
+			getline(cin, response);
+		}
+	}
+	
+
+	cout << "Sorting...\n\n";
+	i1++;
 	if (i2 == 1)
 	{
+		auto start = high_resolution_clock::now();
 		songs.heapSort(sorted_vect[i1 - 1].first);
+		auto stop = high_resolution_clock::now();
+		auto dur = duration_cast<seconds>(stop - start);
+		
+		cout << "The HeapSort took: " << dur.count() << " seconds" << endl;
+
 	}
 
 	else if (i2 == 2)
 	{
+		auto start = high_resolution_clock::now();
 		songs.quickSort(sorted_vect[i1 - 1].first, 0, songs.getNumSongs() - 1);
+		auto stop = high_resolution_clock::now();
+		auto dur = duration_cast<seconds>(stop - start);
+
+		cout << "The QuickSort took: " << dur.count() << " seconds" << endl;
 	}
+
+	
 
 	vector<pair<double, Song>> recommended;
 
@@ -249,17 +321,38 @@ int main()
 			}
 		}
 	}
+	int maxRecommend=0;
+	if (recommended.size() < 20)
+		maxRecommend = recommended.size();
+	else
+		maxRecommend = 20;
 
-	cout << endl << "How many songs would you like to be recommended? (Max: 20) ";
+	cout << endl << "How many songs would you like to be recommended? (Max: " << maxRecommend << ")" << endl;;
 	getline(cin, response);
+	int songCount=0;
+	while (!inputFlag) {
+		try
+		{
+			songCount = stoi(response);
+			if (count <= recommended.size() && count>0)
+				inputFlag = true;
+			else {
+				cout << "Please enter a valid response (1-" << recommended.size() << ")" << endl;
+				getline(cin, response);
+			}
+		}
+		catch (exception& e)
+		{
+			cout << "Please enter a valid response (1-" << recommended.size() << ")" << endl;
+			getline(cin, response);
+		}
+	}
 
-	count = stoi(response);
-
-	for (int i = 0; i < count; i++)
+	for (int i = 0; i < songCount; i++)
 	{
 		cout << i + 1 << ". " << recommended[i].second.getName() << " | ";
 
-		for (int j = 0; j < recommended[i].second.getArtists().size(); j++)
+		for (unsigned int j = 0; j < recommended[i].second.getArtists().size(); j++)
 		{
 			if (j != recommended[i].second.getArtists().size() && j != 0)
 			{
