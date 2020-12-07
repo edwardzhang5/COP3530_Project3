@@ -14,6 +14,25 @@ SongCollection::SongCollection(vector<Song> songs)
 	numSongs = songs.size();
 }
 
+int SongCollection::binarySearch(string attribute, int lower, int upper, int key)
+{
+	// returns int of relevant index
+	if (lower<=upper) {
+		int mid = (lower + upper-1) / 2;
+		if (songs[mid].getAttribute(attribute) == key) {
+			return mid;
+		}
+		else if (songs[mid].getAttribute(attribute) < key) {
+			// recursively search left of array
+			return binarySearch(attribute, lower, mid - 1, key);
+		}
+		return binarySearch(attribute, mid + 1, upper, key);
+	}
+	else {
+		return lower; // element not found, return closest possible index
+	}
+}
+
 vector<Song>& SongCollection::getSongs()
 {
 	return songs;
@@ -28,7 +47,6 @@ void SongCollection::importSongs()
 	getline(file, line); // gets rid of first line of csv
 	
 	while (getline(file, line)) {
-		numSongs++; // Keeps track of number of songs in collection
 
 		//========== Valence ==========//
 		string temp;
@@ -239,6 +257,7 @@ void SongCollection::importSongs()
 		songs.push_back(se);
 
 	}
+	numSongs = songs.size();
 	// cout << songs.size();
 
 }
@@ -262,6 +281,7 @@ int SongCollection::partition(string attribute, int low, int high)
 	// loosely inspired by lecture slides on sorting
 	int up = low;
 	int down = high;
+	//int mid = (low + high - 1) / 2;
 
 	auto pivot = songs[low].getAttribute(attribute);
 	while (down > up) {
@@ -351,7 +371,7 @@ int SongCollection::getNumSongs()
 }
 
 //test print method to see if sorts worked
-void SongCollection::testPrint()
+void SongCollection::testPrint(string attribute)
 {
 	for (unsigned int x = 0; x < songs.size(); x++)
 	{

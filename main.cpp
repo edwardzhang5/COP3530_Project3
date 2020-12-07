@@ -37,6 +37,8 @@ void insert_ordered(vector<pair<double, Song>>& vect, pair<double, Song> temp_pa
 }
 
 
+
+
 int main()
 {
 	cout << "Welcome to \"Just Beat It\"" << endl;
@@ -319,12 +321,25 @@ int main()
 	vector<pair<double, Song>> recommended;
 
 	// Find songs with statistic between mean - sd and mean + sd
+
+	/*
+	// Using binary search:
+	int startIndex = songs.binarySearch(sorted_vect[i1 - 1].first, 0, songs.getNumSongs() - 1, mean - sorted_vect[i1 - 1].second);
+
+	while (songs.getSongs()[startIndex].getAttribute(sorted_vect[i1 - 1].first) >= sorted_vect[i1 - 1].second + mean) {
+
+		insert_ordered(recommended, make_pair(abs(mean - songs.getSongs()[i].getAttribute(sorted_vect[i1 - 1].first)), songs.getSongs()[i]));
+		startIndex++;
+
+	}
+	*/
+	
 	for (int i = 0; i < songs.getNumSongs(); i++)
 	{
-		cout << i << endl;
-		if (songs.getSongs()[i].getAttribute(sorted_vect[i1 - 1].first) >= mean - sorted_vect[i1 - 1].second)
+	
+		if (songs.getSongs()[i].getAttribute(sorted_vect[i1 - 1].first) >= mean - sorted_vect[i1 - 1].second / 100)
 		{
-			if (songs.getSongs()[i].getAttribute(sorted_vect[i1 - 1].first) >= sorted_vect[i1 - 1].second + mean)
+			if (songs.getSongs()[i].getAttribute(sorted_vect[i1 - 1].first) >= sorted_vect[i1 - 1].second / 100 + mean)
 			{
 				break;
 			}
@@ -336,10 +351,16 @@ int main()
 			}
 		}
 	}
+	
+	cout << recommended.size() << endl;
 
 	int maxRecommend = 0;
 	if (recommended.size() < 20)
-		maxRecommend = recommended.size();
+		maxRecommend = recommended.size(); // caps number of recommended songs to 20
+	else if (recommended.size() == 0) {
+		cout << "Sorry, we could not find any songs to recommend." << endl;
+		return 0;
+	}
 	else
 		maxRecommend = 20;
 
@@ -353,16 +374,16 @@ int main()
 		try
 		{
 			songCount = stoi(response);
-			if (count <= recommended.size() && count>0)
+			if (count <= maxRecommend && count>0)
 				inputFlag = true;
 			else {
-				cout << "Please enter a valid response (1-" << recommended.size() << ")" << endl;
+				cout << "Please enter a valid response (1-" << maxRecommend << ")" << endl;
 				getline(cin, response);
 			}
 		}
 		catch (exception& e)
 		{
-			cout << "Please enter a valid response (1-" << recommended.size() << ")" << endl;
+			cout << "Please enter a valid response (1-" << maxRecommend << ")" << endl;
 			getline(cin, response);
 		}
 	}

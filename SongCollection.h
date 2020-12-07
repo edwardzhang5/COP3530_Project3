@@ -16,6 +16,10 @@ private:
 public:
 	SongCollection();
 	SongCollection(vector<Song> songs);
+
+
+	int binarySearch(string attribute, int front, int back, int key);
+
 	vector<Song>& getSongs();
 	void importSongs();
 
@@ -28,5 +32,5 @@ public:
 
 	int getNumSongs();
 
-	void testPrint();
+	void testPrint(string attribute);
 };
