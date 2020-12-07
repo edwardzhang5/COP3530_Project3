@@ -133,7 +133,7 @@ int main()
 	double acousticness = 0;
 	double dance = 0;
 	double energy = 0;
-	double instrumental = 0;
+	// double instrumental = 0;
 	double liveness = 0;
 	double loudness = 0;
 	double speech = 0;
@@ -146,7 +146,7 @@ int main()
 		acousticness += user_input[i].getAttribute("acoustic");
 		dance = user_input[i].getAttribute("dance");
 		energy += user_input[i].getAttribute("energy");
-		instrumental += user_input[i].getAttribute("instrumental");
+		// instrumental += user_input[i].getAttribute("instrumental");
 		liveness += user_input[i].getAttribute("liveness");
 		loudness += user_input[i].getAttribute("loudness");
 		speech += user_input[i].getAttribute("speech");
@@ -157,7 +157,7 @@ int main()
 	double m_acousticness = acousticness / user_input.size();
 	double m_dance = dance / user_input.size();
 	double m_energy = energy / user_input.size();
-	double m_instrumental = instrumental / user_input.size();
+	// double m_instrumental = instrumental / user_input.size();
 	double m_liveness = liveness / user_input.size();
 	double m_loudness = loudness / user_input.size();
 	double m_speech = speech / user_input.size();
@@ -168,7 +168,7 @@ int main()
 	double d_acousticness = 0;
 	double d_dance = 0;
 	double d_energy = 0;
-	double d_instrumental = 0;
+	// double d_instrumental = 0;
 	double d_liveness = 0;
 	double d_loudness = 0;
 	double d_speech = 0;
@@ -180,7 +180,7 @@ int main()
 		d_acousticness += pow(user_input[i].getAttribute("acoustic") - m_acousticness, 2);
 		d_dance += pow(user_input[i].getAttribute("dance") - m_dance, 2);
 		d_energy += pow(user_input[i].getAttribute("energy") - m_energy, 2);
-		d_instrumental += pow(user_input[i].getAttribute("instrumental") - m_instrumental, 2);
+		// d_instrumental += pow(user_input[i].getAttribute("instrumental") - m_instrumental, 2);
 		d_liveness += pow(user_input[i].getAttribute("liveness") - m_liveness, 2);
 		d_loudness += pow(user_input[i].getAttribute("loudness") - m_loudness, 2);
 		d_speech += pow(user_input[i].getAttribute("speech") - m_speech, 2);
@@ -191,7 +191,7 @@ int main()
 	double s_acousticness = pow(d_acousticness / user_input.size(), .5);
 	double s_dance = pow(d_dance / user_input.size(), .5);
 	double s_energy = pow(d_energy / user_input.size(), .5);
-	double s_instrumental = pow(d_instrumental / user_input.size(), .5);
+	// double s_instrumental = pow(d_instrumental / user_input.size(), .5);
 	double s_liveness = pow(d_liveness / user_input.size(), .5);
 	double s_loudness = pow(d_loudness / user_input.size(), .5);
 	double s_speech = pow(d_speech / user_input.size(), .5);
@@ -205,7 +205,7 @@ int main()
 	insert_ordered(sorted_vect, make_pair("Acoustic", s_acousticness));
 	insert_ordered(sorted_vect, make_pair("Dance", s_dance));
 	insert_ordered(sorted_vect, make_pair("Energy", s_energy));
-	insert_ordered(sorted_vect, make_pair("Instrumental", s_instrumental));
+	// insert_ordered(sorted_vect, make_pair("Instrumental", s_instrumental));
 	insert_ordered(sorted_vect, make_pair("Liveness", s_liveness));
 	insert_ordered(sorted_vect, make_pair("Loudness", s_loudness));
 	insert_ordered(sorted_vect, make_pair("Speech", s_speech));
@@ -232,11 +232,11 @@ int main()
 		{
 			i1 = stoi(response);
 
-			if (i1 < 10 && i1>0) {
+			if (i1 < 9 && i1>0) {
 				inputFlag = true;
 			}
 			else {
-				cout << "Please enter a number 1-9" << endl;
+				cout << "Please enter a number 1-8" << endl;
 				getline(cin, response);
 			}
 		}
@@ -254,7 +254,7 @@ int main()
 	if (sorted_vect[i1-1].first == "Acoustic") { mean = m_acousticness; }
 	else if (sorted_vect[i1-1].first == "Dance") { mean = m_dance; }
 	else if (sorted_vect[i1-1].first == "Energy") { mean = m_energy; }
-	else if (sorted_vect[i1-1].first == "Instrumental") { mean = m_instrumental; }
+	// else if (sorted_vect[i1-1].first == "Instrumental") { mean = m_instrumental; }
 	else if (sorted_vect[i1-1].first == "Liveness") { mean = m_liveness; }
 	else if (sorted_vect[i1-1].first == "Loudness") { mean = m_loudness; }
 	else if (sorted_vect[i1-1].first == "Speech") { mean = m_speech; }
