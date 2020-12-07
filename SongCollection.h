@@ -16,7 +16,8 @@ public:
 	SongCollection();
 	SongCollection(vector<Song> songs);
 	vector<Song> songs;
-	vector<Song> recommended;
+	vector<Song> recommended1;
+	vector<Song> recommended2;
 
 	void importSongs();
 

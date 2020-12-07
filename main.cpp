@@ -47,7 +47,7 @@ int main()
 	songs.importSongs();
 
 
-	//========== Getting User Input ==========//
+	//==================== Getting User Input ====================//
 	vector<Song> user_input;
 	int i;
 	unsigned int j;
@@ -61,62 +61,145 @@ int main()
 
 	i = stoi(temp);
 
+	//==================== Finding User Input Songs ====================//
 	while (count < i)
 	{
 		cout << "Please enter song name: ";
 		getline(cin, name);
-		cout << "Finding song..." << endl;
-		cout << "Type \"E\" to exit the current search at anytime." << endl;
+		cout << "Would you like to filter by artist (Y/N): ";
+		
+		string art;
+		getline(cin, art);
 
-		j = 0;
-		found = false;
 
-
-		while (found == false && j < songs.songs.size())
+		if (art == "N" || art == "n")
 		{
-			// Checks with user to ensure correct song has been found
-			if (songs.songs[j].getName().find(name) != -1)
+			cout << "Finding song..." << endl;
+			cout << "Type \"E\" to exit the current search at anytime." << endl;
+
+			j = 0;
+			found = false;
+
+
+			while (found == false && j < songs.songs.size())
 			{
-				cout << endl << "Is this the correct song? (Y/N)" << endl;
-				
-				cout << songs.songs[j].getName() << ", " << songs.songs[j].getArtists()[0];
-				if (songs.songs[j].getArtists().size() > 1)
-					cout << ", " << songs.songs[j].getArtists()[1] << "..." << endl;
-				else
-					cout << endl;
-
-				string response;
-				getline(cin, response);
-
-				if (response == "Y"||response=="y")
+				// Checks with user to ensure correct song has been found
+				if (songs.songs[j].getName().find(name) != -1)
 				{
-					user_input.push_back(songs.songs[j]);
-					found = true;
-					break;
+					cout << endl << "Is this the correct song? (Y/N)" << endl;
+
+					cout << songs.songs[j].getName() << ", " << songs.songs[j].getArtists()[0];
+					if (songs.songs[j].getArtists().size() > 1)
+						cout << ", " << songs.songs[j].getArtists()[1] << "..." << endl;
+					else
+						cout << endl;
+
+					string response;
+					getline(cin, response);
+
+					if (response == "Y" || response == "y")
+					{
+						user_input.push_back(songs.songs[j]);
+						found = true;
+						break;
+					}
+
+					else if (response == "E" || response == "e")
+					{
+						cout << "Exiting current search..." << endl;
+						break;
+					}
+
+					else if (response == "N" || response == "n")
+					{
+						cout << "Continuing search..." << endl;
+					}
+
+					else
+					{
+						cout << "Next time please respond with either 'Y' or 'N'" << endl;
+						cout << "Continuing previous search" << endl;
+						j--;
+					}
 				}
 
-				else if (response == "E" || response == "e") 
-				{
-					cout << "Exiting current search..." << endl;
-					break;
-				}
+				j++;
 
-				else if (response == "N"|| response=="n")
-				{
-					cout << "Continuing search..." << endl;
-				}
-
-				else
-				{
-					cout << "Next time please respond with either 'Y' or 'N'" << endl;
-					cout << "Continuing previous search" << endl;
-					j--;
-				}
 			}
-
-			j++;
-
 		}
+
+		else if (art == "Y" || art == "y")
+		{
+			cout << "Please enter artist name: ";
+			getline(cin, art);
+
+			cout << "Finding song..." << endl;
+			cout << "Type \"E\" to exit the current search at anytime." << endl;
+
+			j = 0;
+			found = false;
+
+
+			while (found == false && j < songs.songs.size())
+			{
+				// Checks with user to ensure correct song has been found
+				if (songs.songs[j].getName().find(name) != -1)
+				{
+					bool art_found = false;
+					for (int k = 0; k < songs.songs[j].getArtists().size(); k++)
+					{
+						if (songs.songs[j].getArtists()[k].find(art) != -1)
+						{
+							art_found = true;
+							break;
+						}
+					}
+
+
+					if (art_found)
+					{
+						cout << endl << "Is this the correct song? (Y/N)" << endl;
+
+						cout << songs.songs[j].getName() << ", " << songs.songs[j].getArtists()[0];
+						if (songs.songs[j].getArtists().size() > 1)
+							cout << ", " << songs.songs[j].getArtists()[1] << "..." << endl;
+						else
+							cout << endl;
+
+						string response;
+						getline(cin, response);
+
+						if (response == "Y" || response == "y")
+						{
+							user_input.push_back(songs.songs[j]);
+							found = true;
+							break;
+						}
+
+						else if (response == "E" || response == "e")
+						{
+							cout << "Exiting current search..." << endl;
+							break;
+						}
+
+						else if (response == "N" || response == "n")
+						{
+							cout << "Continuing search..." << endl;
+						}
+
+						else
+						{
+							cout << "Next time please respond with either 'Y' or 'N'" << endl;
+							cout << "Continuing previous search" << endl;
+							j--;
+						}
+					}
+				}
+
+				j++;
+			}
+		}
+		
 
 		// The song was succesfully found ... add it to the vector
 		if (found)
@@ -143,7 +226,7 @@ int main()
 	double tempo = 0;
 	double valence = 0;
 	
-	//========== Calculating Means ==========//
+	//==================== Calculating Means ====================//
 	for (unsigned int i = 0; i < user_input.size(); i++)
 	{
 		acousticness += user_input[i].getAttribute("acoustic");
@@ -167,7 +250,7 @@ int main()
 	double m_tempo = tempo / user_input.size();
 	double m_valence = valence / user_input.size();
 
-	//========== Calculating Standard Deviations ==========//
+	//==================== Calculating Standard Deviations ====================//
 	double d_acousticness = 0;
 	double d_dance = 0;
 	double d_energy = 0;
@@ -200,7 +283,7 @@ int main()
 	double s_speech = pow(d_speech / user_input.size(), .5);
 	double s_tempo = pow(d_tempo / user_input.size(), .5);
 	double s_valence = pow(d_valence / user_input.size(), .5);
-	//========== End Calculations ==========//
+	//==================== End Calculations ====================//
 
 
 	// Sorting the standard deviations so the lowest is at the front of the vector
@@ -287,7 +370,7 @@ int main()
 
 
 
-	//========== Begin FInding Recommended Songs ==========//
+	//==================== Begin FInding Recommended Songs ====================//
 	cout << "Calculating the variations of every song...this may take a little while." << endl;
 	auto start = high_resolution_clock::now();
 
@@ -313,99 +396,68 @@ int main()
 
 		if (!removed)
 		{
-			songs.recommended.push_back(*iter);
+			songs.recommended1.push_back(*iter);
+			songs.recommended2.push_back(*iter);
 		}
 	}
 
 	auto stop = high_resolution_clock::now();
 	auto dur = duration_cast<milliseconds>(stop - start);
-	cout << "Calculating differences took " << dur.count() << " seconds." << endl;
+	cout << "Calculating differences took " << dur.count() << " milliseconds." << endl;
 
 
 
-	//========== Sorting Section ==========//
-	cout << endl << "Which sorting algorithm would you like to use to sort the dataset?" << endl;
-	cout << "1. Heap Sort" << endl;
-	cout << "2. Quick Sort" << endl;
-
-	getline(cin, response);
-	bool inputFlag = false;
-	int i2;
-
-	// Ensuring the user has given a proper input
-	while (!inputFlag) {
-		try
-		{
-			i2 = stoi(response);
-			if (i2 < 3 && i2>0)
-				inputFlag = true;
-			else {
-				cout << "Please enter a valid response (1-2)" << endl;
-				getline(cin, response);
-			}
-		}
-		catch (exception& e)
-		{
-			cout << "Please enter a valid response (1-2)" << endl;
-			getline(cin, response);
-		}
-	}
-	
-
-	cout << "Sorting...\n\n";
+	//==================== Sorting Section ====================//
+	cout << endl << "Performing Sorting Algorithms" << endl;
+	cout << "Heap Sort" << endl;
+	cout << "Sorting..." << endl;
 	
 	// Timing the heap sort
-	if (i2 == 1)
-	{
-		auto start = high_resolution_clock::now();
-		songs.heapSort("Difference");
-		auto stop = high_resolution_clock::now();
-		auto dur = duration_cast<milliseconds>(stop - start);
-		
-		cout << "The HeapSort took: " << dur.count() << " milliseconds" << endl;
+	auto start1 = high_resolution_clock::now();
+	songs.heapSort("Difference");
+	auto stop1 = high_resolution_clock::now();
+	auto dur1 = duration_cast<milliseconds>(stop1 - start1);
+	cout << "The HeapSort took: " << dur1.count() << " milliseconds" << endl;
 
-	}
 
+	cout << endl << "Quick Sort" << endl;
+	cout << "Sorting..." << endl;
 	// Timing the quick sort
-	else if (i2 == 2)
-	{
-		auto start = high_resolution_clock::now();
-		songs.quickSort("Difference", 0, songs.getNumSongs() - 1);
-		auto stop = high_resolution_clock::now();
-		auto dur = duration_cast<milliseconds>(stop - start);
-
-		cout << "The QuickSort took: " << dur.count() << " milliseconds" << endl;
-	}
+	auto start2 = high_resolution_clock::now();
+	songs.quickSort("Difference", 0, songs.recommended2.size() - 1);
+	auto stop2 = high_resolution_clock::now();
+	auto dur2 = duration_cast<milliseconds>(stop2 - start2);
+	cout << "The QuickSort took: " << dur2.count() << " milliseconds" << endl;
 
 
-	//========== Printing Recommended Songs ==========//
+	//==================== Printing Recommended Songs ====================//
 	cout << endl << "Finding recommended songs..." << endl << endl;
 	
-	if (songs.recommended.size() == 0) {
+	if (songs.recommended1.size() == 0) {
 		cout << "Sorry, we could not find any songs to recommend." << endl;
 		return 0;
 	}
 
-	cout << endl << "How many songs would you like to be recommended? (Max: " << songs.recommended.size() << ")" << endl;;
+	cout << endl << "How many songs would you like to be recommended? (Max: " << songs.recommended1.size() << ")" << endl;;
 	getline(cin, response);
 	int songCount=0;
 
 	// Ensuring the user has given a proper input
-	inputFlag = false;
+	bool inputFlag = false;
 	while (!inputFlag) {
 		try
 		{
 			songCount = stoi(response);
-			if (count <= songs.recommended.size() && count>0)
+			if (count <= songs.recommended1.size() && count>0)
 				inputFlag = true;
 			else {
-				cout << "Please enter a valid response (1-" << songs.recommended.size() << ")" << endl;
+				cout << "Please enter a valid response (1-" << songs.recommended1.size() << ")" << endl;
 				getline(cin, response);
 			}
 		}
 		catch (exception& e)
 		{
-			cout << "Please enter a valid response (1-" << songs.recommended.size() << ")" << endl;
+			cout << "Please enter a valid response (1-" << songs.recommended1.size() << ")" << endl;
 			getline(cin, response);
 		}
 	}
@@ -414,15 +466,15 @@ int main()
 	// Printing out the recommended songs
 	for (int i = 0; i < songCount; i++)
 	{
-		cout << i + 1 << ". " << songs.recommended[i].getName() << " | ";
+		cout << i + 1 << ". " << songs.recommended1[i].getName() << " | ";
 
-		for (unsigned int j = 0; j < songs.recommended[i].getArtists().size(); j++)
+		for (unsigned int j = 0; j < songs.recommended1[i].getArtists().size(); j++)
 		{
-			if (j != songs.recommended[i].getArtists().size() && j != 0)
+			if (j != songs.recommended1[i].getArtists().size() && j != 0)
 			{
 				cout << ", ";
 			}
-			cout << songs.recommended[i].getArtists()[j];
+			cout << songs.recommended1[i].getArtists()[j];
 		}
 
 		cout << endl;

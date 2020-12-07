@@ -250,7 +250,6 @@ void SongCollection::quickSort(string attribute, int low, int high)
 		// Sorts elements before and after partition
 		quickSort(attribute, low, piv - 1);
 		quickSort(attribute, piv + 1, high);
-
 	}
 }
 
@@ -261,15 +260,15 @@ int SongCollection::partition(string attribute, int low, int high)
 	int down = high;
 	//int mid = (low + high - 1) / 2;
 
-	auto pivot = songs[low].getAttribute(attribute);
+	auto pivot = recommended2[low].getAttribute(attribute);
 	while (down > up) {
 		for (int i = high; i > low; i--) {
-			if (songs[down].getAttribute(attribute) < pivot)
+			if (recommended2[down].getAttribute(attribute) < pivot)
 				break;
 			down--;
 		}
 		for (int i = up; i < high; i++) {
-			if (songs[up].getAttribute(attribute) > pivot)
+			if (recommended2[up].getAttribute(attribute) > pivot)
 				break;
 			up++;
 		}
@@ -285,9 +284,9 @@ int SongCollection::partition(string attribute, int low, int high)
 
 void SongCollection::swap(int index1, int index2)
 {
-	auto temp = songs[index1];
-	songs[index1] = songs[index2];
-	songs[index2] = temp;
+	auto temp = recommended2[index1];
+	recommended2[index1] = recommended2[index2];
+	recommended2[index2] = temp;
 }
 
 void SongCollection::heapifyDown(int index, string attribute, int size)
@@ -299,12 +298,12 @@ void SongCollection::heapifyDown(int index, string attribute, int size)
 		
 		//Different if branch is entered depending on which attribute we are sorting by
 		
-		if (leftIndex < size && songs.at(leftIndex).getAttribute(attribute) > songs.at(greatestIndex).getAttribute(attribute))
+		if (leftIndex < size && recommended1.at(leftIndex).getAttribute(attribute) > recommended1.at(greatestIndex).getAttribute(attribute))
 		{
 			greatestIndex = leftIndex;
 		}
 
-		if (rightIndex < size && songs.at(rightIndex).getAttribute(attribute) > songs.at(greatestIndex).getAttribute(attribute))
+		if (rightIndex < size && recommended1.at(rightIndex).getAttribute(attribute) > recommended1.at(greatestIndex).getAttribute(attribute))
 		{
 			greatestIndex = rightIndex;
 		}
@@ -313,9 +312,9 @@ void SongCollection::heapifyDown(int index, string attribute, int size)
 		// swap if one of the children of index are greater
 		if (greatestIndex != index)
 		{
-			Song temp = songs.at(index);
-			songs.at(index) = songs.at(greatestIndex);
-			songs.at(greatestIndex) = temp;
+			Song temp = recommended1.at(index);
+			recommended1.at(index) = recommended1.at(greatestIndex);
+			recommended1.at(greatestIndex) = temp;
 			heapifyDown(greatestIndex,attribute,size);
 		}
 	
@@ -324,18 +323,18 @@ void SongCollection::heapifyDown(int index, string attribute, int size)
 void SongCollection::heapSort(string attribute)
 {
 	//build max heap
-	for (int i = songs.size() / 2; i > 0; i--)
+	for (int i = recommended1.size() / 2; i > 0; i--)
 	{
 		//heapify based on which attribute we are sorting by
-		heapifyDown(i - 1, attribute, songs.size());
+		heapifyDown(i - 1, attribute, recommended1.size());
 	}
 
-	int endIndex = songs.size() - 1;
+	int endIndex = recommended1.size() - 1;
 	for (endIndex; endIndex > 0; endIndex--)
 	{
-		Song temp = songs.at(0);
-		songs.at(0) = songs.at(endIndex);
-		songs.at(endIndex) = temp;
+		Song temp = recommended1.at(0);
+		recommended1.at(0) = recommended1.at(endIndex);
+		recommended1.at(endIndex) = temp;
 
 		heapifyDown(0, attribute, endIndex);
 		
