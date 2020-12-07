@@ -8,35 +8,13 @@ SongCollection::SongCollection()
 	numSongs = 0;
 }
 
+
 SongCollection::SongCollection(vector<Song> songs)
 {
 	this->songs = songs;
 	numSongs = songs.size();
 }
 
-int SongCollection::binarySearch(string attribute, int lower, int upper, int key)
-{
-	// returns int of relevant index
-	if (lower<=upper) {
-		int mid = (lower + upper-1) / 2;
-		if (songs[mid].getAttribute(attribute) == key) {
-			return mid;
-		}
-		else if (songs[mid].getAttribute(attribute) < key) {
-			// recursively search left of array
-			return binarySearch(attribute, lower, mid - 1, key);
-		}
-		return binarySearch(attribute, mid + 1, upper, key);
-	}
-	else {
-		return lower; // element not found, return closest possible index
-	}
-}
-
-vector<Song>& SongCollection::getSongs()
-{
-	return songs;
-}
 
 void SongCollection::importSongs()
 {

@@ -20,6 +20,7 @@ Song::Song() {
 	release_year = 0;
 	speech = 0;
 	tempo = 0;
+	difference = 0;
 }
 
 
@@ -44,6 +45,7 @@ Song::Song(double valence, int year, double acoustic, vector<string> artists, do
 	this->release_year = release_year;
 	this->speech = speech;
 	this->tempo = tempo;
+	this->difference = 0;
 }
 
 double Song::getAttribute(string attribute)
@@ -92,6 +94,12 @@ double Song::getAttribute(string attribute)
 	{
 		return tempo;
 	}
+
+	else if (attribute == "Difference" || attribute == "difference")
+	{
+		return difference;
+	}
+
 	else {
 		std::cout << "Improper Attribute was referenced!" << std::endl;
 		return 0;
@@ -106,4 +114,9 @@ vector<string> Song::getArtists()
 string Song::getName()
 {
 	return name;
+}
+
+void Song::setDifference(double Difference)
+{
+	this->difference = Difference;
 }

@@ -10,17 +10,14 @@
 class SongCollection
 {
 private:
-	vector<Song> songs;
 	int numSongs;
 
 public:
 	SongCollection();
 	SongCollection(vector<Song> songs);
+	vector<Song> songs;
+	vector<Song> recommended;
 
-
-	int binarySearch(string attribute, int front, int back, int key);
-
-	vector<Song>& getSongs();
 	void importSongs();
 
 	void quickSort(string attribute, int low, int high);

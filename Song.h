@@ -29,6 +29,7 @@ private:
 	int release_year;
 	double speech;
 	double tempo;
+	double difference;
 
 public:
 	Song();
@@ -39,4 +40,5 @@ public:
 	vector<string> getArtists();
 
 	string getName();
+	void setDifference(double difference);
 };
