@@ -41,4 +41,5 @@ public:
 
 	string getName();
 	void setDifference(double difference);
+	
 };

@@ -146,7 +146,7 @@ int main()
 				if (songs.songs[j].getName().find(name) != -1)
 				{
 					bool art_found = false;
-					for (int k = 0; k < songs.songs[j].getArtists().size(); k++)
+					for (unsigned int k = 0; k < songs.songs[j].getArtists().size(); k++)
 					{
 						if (songs.songs[j].getArtists()[k].find(art) != -1)
 						{
@@ -355,7 +355,7 @@ int main()
 	
 	vector<pair<double, double>> statistics; // <mean, SD>
 
-	for (int i = 0; i < choices.size(); i++)
+	for (unsigned int i = 0; i < choices.size(); i++)
 	{
 		if (choices[i] == "Acoustic") { statistics.push_back(make_pair(m_acousticness, s_acousticness)); }
 		else if (choices[i] == "Dance") { statistics.push_back(make_pair(m_dance, s_dance)); }
@@ -376,10 +376,10 @@ int main()
 
 	for (auto iter = songs.songs.begin(); iter != songs.songs.end(); iter++)
 	{
-		int temp = 0;
+		double temp = 0;
 		bool removed = false;
 
-		for (int i = 0; i < choices.size(); i++)
+		for (unsigned int i = 0; i < choices.size(); i++)
 		{
 			// If any of the statistics are out of bounds of one standard deviation, remove them from consideration
 			if (iter->getAttribute(choices[i]) > statistics[i].first + 3 * statistics[i].second || iter->getAttribute(choices[i]) < statistics[i].first - 3 * statistics[i].second)
@@ -396,6 +396,7 @@ int main()
 
 		if (!removed)
 		{
+			iter->setDifference(temp);
 			songs.recommended1.push_back(*iter);
 			songs.recommended2.push_back(*iter);
 		}
@@ -432,13 +433,20 @@ int main()
 
 	//==================== Printing Recommended Songs ====================//
 	cout << endl << "Finding recommended songs..." << endl << endl;
-	
+
+	int recommendCap = 0;
 	if (songs.recommended1.size() == 0) {
 		cout << "Sorry, we could not find any songs to recommend." << endl;
 		return 0;
 	}
 
-	cout << endl << "How many songs would you like to be recommended? (Max: " << songs.recommended1.size() << ")" << endl;;
+	else if (songs.recommended1.size() > 50) {
+		recommendCap = 50;
+	}
+	else
+		recommendCap = songs.recommended1.size();
+
+	cout << endl << "How many songs would you like to be recommended? (Max: " << recommendCap << ")" << endl;;
 	getline(cin, response);
 	int songCount=0;
 
@@ -448,22 +456,25 @@ int main()
 		try
 		{
 			songCount = stoi(response);
-			if (count <= songs.recommended1.size() && count>0)
+			if (count <= recommendCap && count>0)
 				inputFlag = true;
 			else {
-				cout << "Please enter a valid response (1-" << songs.recommended1.size() << ")" << endl;
+				cout << "Please enter a valid response (1-" << recommendCap << ")" << endl;
 				getline(cin, response);
 			}
 		}
 		catch (exception& e)
 		{
-			cout << "Please enter a valid response (1-" << songs.recommended1.size() << ")" << endl;
+			cout << "Please enter a valid response (1-" << recommendCap << ")" << endl;
 			getline(cin, response);
 		}
 	}
 	
+	
 
 	// Printing out the recommended songs
+
+	cout << "\nYour top " << songCount << " most relevant songs are: \n" << endl;
 	for (int i = 0; i < songCount; i++)
 	{
 		cout << i + 1 << ". " << songs.recommended1[i].getName() << " | ";

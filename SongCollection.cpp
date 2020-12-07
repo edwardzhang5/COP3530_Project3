@@ -258,7 +258,6 @@ int SongCollection::partition(string attribute, int low, int high)
 	// loosely inspired by lecture slides on sorting
 	int up = low;
 	int down = high;
-	//int mid = (low + high - 1) / 2;
 
 	auto pivot = recommended2[low].getAttribute(attribute);
 	while (down > up) {
