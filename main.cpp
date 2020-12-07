@@ -1,3 +1,10 @@
+/*
+Title: Just Beat It
+Authors: Edward Zhang, Arthur Liu, Taylor Frederick
+Date: 12/7/2020
+*/
+
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -23,7 +30,7 @@ void insert_ordered(vector<pair<string, double>>& vect, pair<string, double> tem
 }
 
 
-// Helper function to find the songs with the sallest deviation from the mean of the inputted songs
+// Helper function to find the songs with the smallest deviation from the mean of the inputted songs
 void insert_ordered(vector<pair<double, Song>>& vect, pair<double, Song> temp_pair)
 {
 	auto iter = vect.begin();
@@ -60,6 +67,7 @@ int main()
 	getline(cin, temp);
 
 	i = stoi(temp);
+	
 
 	//==================== Finding User Input Songs ====================//
 	while (count < i)
@@ -104,7 +112,7 @@ int main()
 						break;
 					}
 
-					else if (response == "E" || response == "e")
+					else if (response == "E" || response == "e") // option to break out of search loop
 					{
 						cout << "Exiting current search..." << endl;
 						break;
@@ -128,6 +136,7 @@ int main()
 			}
 		}
 
+		// uses artist as an additional comparison to find songs
 		else if (art == "Y" || art == "y")
 		{
 			cout << "Please enter artist name: ";
@@ -208,7 +217,7 @@ int main()
 			cout << user_input[count].getName() << ", " << user_input[count].getArtists()[0] << endl << endl;
 			count++;
 		}
-
+		// song was not successfully found :(
 		else
 		{
 			cout << "Could not find song with name \"" << name << ".\" Please ensure that you entered the name properly" << endl;
@@ -219,7 +228,6 @@ int main()
 	double acousticness = 0;
 	double dance = 0;
 	double energy = 0;
-	// double instrumental = 0;
 	double liveness = 0;
 	double loudness = 0;
 	double speech = 0;
@@ -232,7 +240,6 @@ int main()
 		acousticness += user_input[i].getAttribute("acoustic");
 		dance += user_input[i].getAttribute("dance");
 		energy += user_input[i].getAttribute("energy");
-		// instrumental += user_input[i].getAttribute("instrumental");
 		liveness += user_input[i].getAttribute("liveness");
 		loudness += user_input[i].getAttribute("loudness");
 		speech += user_input[i].getAttribute("speech");
@@ -243,7 +250,6 @@ int main()
 	double m_acousticness = acousticness / user_input.size();
 	double m_dance = dance / user_input.size();
 	double m_energy = energy / user_input.size();
-	// double m_instrumental = instrumental / user_input.size();
 	double m_liveness = liveness / user_input.size();
 	double m_loudness = loudness / user_input.size();
 	double m_speech = speech / user_input.size();
@@ -254,7 +260,6 @@ int main()
 	double d_acousticness = 0;
 	double d_dance = 0;
 	double d_energy = 0;
-	// double d_instrumental = 0;
 	double d_liveness = 0;
 	double d_loudness = 0;
 	double d_speech = 0;
@@ -266,7 +271,6 @@ int main()
 		d_acousticness += pow(user_input[i].getAttribute("acoustic") - m_acousticness, 2);
 		d_dance += pow(user_input[i].getAttribute("dance") - m_dance, 2);
 		d_energy += pow(user_input[i].getAttribute("energy") - m_energy, 2);
-		// d_instrumental += pow(user_input[i].getAttribute("instrumental") - m_instrumental, 2);
 		d_liveness += pow(user_input[i].getAttribute("liveness") - m_liveness, 2);
 		d_loudness += pow(user_input[i].getAttribute("loudness") - m_loudness, 2);
 		d_speech += pow(user_input[i].getAttribute("speech") - m_speech, 2);
@@ -277,7 +281,6 @@ int main()
 	double s_acousticness = pow(d_acousticness / user_input.size(), .5);
 	double s_dance = pow(d_dance / user_input.size(), .5);
 	double s_energy = pow(d_energy / user_input.size(), .5);
-	// double s_instrumental = pow(d_instrumental / user_input.size(), .5);
 	double s_liveness = pow(d_liveness / user_input.size(), .5);
 	double s_loudness = pow(d_loudness / user_input.size(), .5);
 	double s_speech = pow(d_speech / user_input.size(), .5);
@@ -291,7 +294,6 @@ int main()
 	insert_ordered(sorted_vect, make_pair("Acoustic", s_acousticness));
 	insert_ordered(sorted_vect, make_pair("Dance", s_dance));
 	insert_ordered(sorted_vect, make_pair("Energy", s_energy));
-	// insert_ordered(sorted_vect, make_pair("Instrumental", s_instrumental));
 	insert_ordered(sorted_vect, make_pair("Liveness", s_liveness));
 	insert_ordered(sorted_vect, make_pair("Loudness", s_loudness));
 	insert_ordered(sorted_vect, make_pair("Speech", s_speech));
@@ -341,11 +343,13 @@ int main()
 
 		if (i1 == 0)
 		{
+			// breaks out of user input loop
 			looping = false;
 		}
 
 		else
 		{
+			// pushes back chosen statistic
 			choices.push_back(sorted_vect[i1 - 1].first);
 			sorted_vect.erase(sorted_vect.begin() + i1 - 1);
 		}
@@ -360,7 +364,6 @@ int main()
 		if (choices[i] == "Acoustic") { statistics.push_back(make_pair(m_acousticness, s_acousticness)); }
 		else if (choices[i] == "Dance") { statistics.push_back(make_pair(m_dance, s_dance)); }
 		else if (choices[i] == "Energy") { statistics.push_back(make_pair(m_energy, s_energy)); }
-		// else if (choices[i] == "Instrumental") { statistics.push_back(make_pair(m_instrumental, s_instrumental)); }
 		else if (choices[i] == "Liveness") { statistics.push_back(make_pair(m_liveness, s_liveness)); }
 		else if (choices[i] == "Loudness") { statistics.push_back(make_pair(m_loudness, s_loudness)); }
 		else if (choices[i] == "Speech") { statistics.push_back(make_pair(m_speech, s_speech)); }
@@ -397,6 +400,7 @@ int main()
 		if (!removed)
 		{
 			iter->setDifference(temp);
+			// pushes back songs onto both recommended1 and recommended2 to compare runtime speeds of quick sort and heap sort
 			songs.recommended1.push_back(*iter);
 			songs.recommended2.push_back(*iter);
 		}
@@ -434,6 +438,7 @@ int main()
 	//==================== Printing Recommended Songs ====================//
 	cout << endl << "Finding recommended songs..." << endl << endl;
 
+	// Caps the amount of recommended songs to the user to only recommended most relevant songs
 	int recommendCap = 0;
 	if (songs.recommended1.size() == 0) {
 		cout << "Sorry, we could not find any songs to recommend." << endl;
@@ -473,7 +478,6 @@ int main()
 	
 
 	// Printing out the recommended songs
-
 	cout << "\nYour top " << songCount << " most relevant songs are: \n" << endl;
 	for (int i = 0; i < songCount; i++)
 	{

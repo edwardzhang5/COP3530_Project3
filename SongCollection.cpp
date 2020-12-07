@@ -33,7 +33,6 @@ void SongCollection::importSongs()
 		double valence = stod(temp);
 		if (valence > 1) { valence = 1; }
 		if (valence < 0) { valence = 0; }
-		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
 
@@ -41,7 +40,6 @@ void SongCollection::importSongs()
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		int year = stoi(temp);
-		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
 
@@ -51,7 +49,6 @@ void SongCollection::importSongs()
 		double acoustic = stod(temp);
 		if (acoustic > 1) { acoustic = 1; }
 		if (acoustic < 0) { acoustic = 0; }
-		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
 		//========== Finding Artists ==========//
@@ -64,7 +61,6 @@ void SongCollection::importSongs()
 		{
 			temp = line.substr(i1 + 2, i2 - i1 - 3);
 			artists.push_back(temp);
-			// cout << temp << ", ";
 			line = line.substr(i2 + 1);
 			i1 = line.find(" ");
 			i2 = line.find(",");
@@ -73,7 +69,6 @@ void SongCollection::importSongs()
 
 		temp = line.substr(i1 + 2, i3 - i1 - 3);
 		artists.push_back(temp);
-		// cout << temp << ", ";
 		line = line.substr(i2 + 1);
 		//========== End Finding Artists ==========//
 
@@ -160,7 +155,6 @@ void SongCollection::importSongs()
 		loudness = loudness / 60;
 		// Min: Multiple : -60
 		// Max: Multiple : 0
-		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
 
@@ -168,7 +162,6 @@ void SongCollection::importSongs()
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		int mode = stoi(temp);
-		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
 
@@ -181,7 +174,6 @@ void SongCollection::importSongs()
 		{
 			temp = line.substr(i1 + 1, i2 - i1);
 			name = temp;
-			// cout << temp << ", ";
 			line = line.substr(i2 + 2);
 		}
 
@@ -190,7 +182,6 @@ void SongCollection::importSongs()
 			i1 = line.find(",");
 			temp = line.substr(0, i1);
 			name = temp;
-			// cout << temp << ", ";
 			line = line.substr(i1 + 1);
 		}
 		//========== End Finding Name ==========//
@@ -200,7 +191,6 @@ void SongCollection::importSongs()
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		int popularity = stoi(temp);
-		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
 		
@@ -208,7 +198,6 @@ void SongCollection::importSongs()
 		i1 = line.find(",");
 		temp = line.substr(0, i1);
 		int release_year = stoi(temp);
-		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 		
 		
@@ -218,7 +207,6 @@ void SongCollection::importSongs()
 		double speech = stod(temp);
 		if (speech > 1) { speech = 1; }
 		if (speech < 0) { speech = 0; }
-		// cout << temp << ", ";
 		line = line.substr(i1 + 1);
 
 		
@@ -229,14 +217,13 @@ void SongCollection::importSongs()
 		tempo = tempo / 243.507;
 		// Min: Multiple : 0
 		// Max: "I Don't Want You On My Mind" : 243.507
-		// cout << temp << endl;
 
+		// Creates a song object with the song attributes that were read in and pushes it onto the vector of songs
 		Song se(valence, year, acoustic, artists, dance, duration, energy, exp, id, instrumental, key, liveness, loudness, mode, name, popularity, release_year, speech, tempo);
 		songs.push_back(se);
 
 	}
 	numSongs = songs.size();
-	// cout << songs.size();
 
 }
 
@@ -259,6 +246,8 @@ int SongCollection::partition(string attribute, int low, int high)
 	int up = low;
 	int down = high;
 
+	// sets pivot to the low index
+	// quick sort is called on recommended2 for runtime comparison
 	auto pivot = recommended2[low].getAttribute(attribute);
 	while (down > up) {
 		for (int i = high; i > low; i--) {
@@ -272,6 +261,7 @@ int SongCollection::partition(string attribute, int low, int high)
 			up++;
 		}
 
+		// swaps elements if down iterator becomes greater than up
 		if (down > up)
 			swap(up, down);
 	}
@@ -283,6 +273,7 @@ int SongCollection::partition(string attribute, int low, int high)
 
 void SongCollection::swap(int index1, int index2)
 {
+	// quick sort is called on recommended 2 for runtime comparison
 	auto temp = recommended2[index1];
 	recommended2[index1] = recommended2[index2];
 	recommended2[index2] = temp;
@@ -290,12 +281,11 @@ void SongCollection::swap(int index1, int index2)
 
 void SongCollection::heapifyDown(int index, string attribute, int size)
 {
-	
 		int leftIndex = (2 * index) + 1;
 		int rightIndex = (2 * index) + 2;
 		int greatestIndex = index;
 		
-		//Different if branch is entered depending on which attribute we are sorting by
+		// Different if branch is entered depending on which attribute we are sorting by
 		
 		if (leftIndex < size && recommended1.at(leftIndex).getAttribute(attribute) > recommended1.at(greatestIndex).getAttribute(attribute))
 		{
@@ -321,10 +311,10 @@ void SongCollection::heapifyDown(int index, string attribute, int size)
 
 void SongCollection::heapSort(string attribute)
 {
-	//build max heap
+	// build max heap
 	for (int i = recommended1.size() / 2; i > 0; i--)
 	{
-		//heapify based on which attribute we are sorting by
+		// heapify based on which attribute we are sorting by
 		heapifyDown(i - 1, attribute, recommended1.size());
 	}
 
@@ -336,7 +326,6 @@ void SongCollection::heapSort(string attribute)
 		recommended1.at(endIndex) = temp;
 
 		heapifyDown(0, attribute, endIndex);
-		
 	}
 
 }
