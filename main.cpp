@@ -9,6 +9,7 @@
 using namespace std;
 using namespace std::chrono;
 
+// Helper function to find the smallest standard deviation
 void insert_ordered(vector<pair<string, double>>& vect, pair<string, double> temp_pair)
 {
 	auto iter = vect.begin();
@@ -22,6 +23,7 @@ void insert_ordered(vector<pair<string, double>>& vect, pair<string, double> tem
 }
 
 
+// Helper function to find the songs with the sallest deviation from the mean of the inputted songs
 void insert_ordered(vector<pair<double, Song>>& vect, pair<double, Song> temp_pair)
 {
 	auto iter = vect.begin();
@@ -69,6 +71,7 @@ int main()
 
 		while (found == false && j < songs.getSongs().size())
 		{
+			// Checks with user to ensure correct song has been found
 			if (songs.getSongs()[j].getName().find(name) != -1)
 			{
 				cout << endl << "Is this the correct song? (Y/N)" << endl;
@@ -112,6 +115,7 @@ int main()
 
 		}
 
+		// The song was succesfully found ... add it to the vector
 		if (found)
 		{
 			cout << endl <<  "Succesfully found song." << endl;
@@ -195,6 +199,8 @@ int main()
 	double s_valence = pow(d_valence / user_input.size(), .5);
 	//========== End Calculations ==========//
 
+
+	// Sorting the standard deviations so the lowest is at the front of the vector
 	vector<pair<string, double>> sorted_vect;
 	insert_ordered(sorted_vect, make_pair("Acoustic", s_acousticness));
 	insert_ordered(sorted_vect, make_pair("Dance", s_dance));
@@ -220,6 +226,7 @@ int main()
 	int i1;
 	bool inputFlag = false;
 
+	// Ensuring the user has given a proper input
 	while (!inputFlag) {
 		try
 		{
@@ -243,7 +250,7 @@ int main()
 
 	double mean= -1;
 
-	
+	// Finding the approrpriate mean based on what the user is sorting by
 	if (sorted_vect[i1-1].first == "Acoustic") { mean = m_acousticness; }
 	else if (sorted_vect[i1-1].first == "Dance") { mean = m_dance; }
 	else if (sorted_vect[i1-1].first == "Energy") { mean = m_energy; }
@@ -262,6 +269,7 @@ int main()
 	inputFlag = false;
 	int i2;
 
+	// Ensuring the user has given a proper input
 	while (!inputFlag) {
 		try
 		{
@@ -283,6 +291,7 @@ int main()
 
 	cout << "Sorting...\n\n";
 	
+	// Timing the heap sort
 	if (i2 == 1)
 	{
 		auto start = high_resolution_clock::now();
@@ -294,6 +303,7 @@ int main()
 
 	}
 
+	// Timing the quick sort
 	else if (i2 == 2)
 	{
 		auto start = high_resolution_clock::now();
@@ -304,12 +314,14 @@ int main()
 		cout << "The QuickSort took: " << dur.count() << " seconds" << endl;
 	}
 
-	
+	cout << endl << "Finding recommended songs..." << endl << endl;
 
 	vector<pair<double, Song>> recommended;
 
+	// Find songs with statistic between mean - sd and mean + sd
 	for (int i = 0; i < songs.getNumSongs(); i++)
 	{
+		cout << i << endl;
 		if (songs.getSongs()[i].getAttribute(sorted_vect[i1 - 1].first) >= mean - sorted_vect[i1 - 1].second)
 		{
 			if (songs.getSongs()[i].getAttribute(sorted_vect[i1 - 1].first) >= sorted_vect[i1 - 1].second + mean)
@@ -317,13 +329,15 @@ int main()
 				break;
 			}
 
+			// Sorting the recommended songs based on the difference between the statistic and the mean
 			else
 			{
 				insert_ordered(recommended, make_pair(abs(mean - songs.getSongs()[i].getAttribute(sorted_vect[i1 - 1].first)), songs.getSongs()[i]));
 			}
 		}
 	}
-	int maxRecommend=0;
+
+	int maxRecommend = 0;
 	if (recommended.size() < 20)
 		maxRecommend = recommended.size();
 	else
@@ -332,6 +346,8 @@ int main()
 	cout << endl << "How many songs would you like to be recommended? (Max: " << maxRecommend << ")" << endl;;
 	getline(cin, response);
 	int songCount=0;
+
+	// Ensuring the user has given a proper input
 	inputFlag = false;
 	while (!inputFlag) {
 		try
@@ -352,6 +368,7 @@ int main()
 	}
 	
 
+	// Printing out the recommended songs
 	for (int i = 0; i < songCount; i++)
 	{
 		cout << i + 1 << ". " << recommended[i].second.getName() << " | ";
